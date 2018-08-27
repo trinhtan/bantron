@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - AMF</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+			
+		</style>
+	</head>
+	<body>
+
+		<script src="js/three.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>
+		<script src="js/renderers/Projector.js"></script>
+
+		<script>
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+			var camera, scene, renderer;
+			init();
+			function init() {
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0x999999 );
+				scene.add( new THREE.AmbientLight( 0x999999 ) );
+				camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 1, 500 );
+
+				// Z is up for objects intended to be 3D printed.
+				camera.up.set( 0, 0, 1 );
+				camera.position.set( 0, -10, 6 );
+				camera.add( new THREE.PointLight( 0xffffff, 0.8 ) );
+				scene.add( camera );
+
+                //lưới
+				var grid = new THREE.GridHelper( 40, 40, 0xffffff, 0x555555 );
+				grid.rotateOnAxis( new THREE.Vector3( 1, 0, 0 ), 90 * ( Math.PI/180 ) );
+				scene.add( grid );
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+				
+				var controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.addEventListener( 'change', render );
+				controls.target.set( 0, 1.2, 2 );
+				controls.update();
+				window.addEventListener( 'resize', onWindowResize, false );
+
+				//create a blue LineBasicMaterial
+				var material = new THREE.LineBasicMaterial( { color: 0x993300 } );
+
+				for(var i = 1; i <= 100; i++){
+
+					var geometry = new THREE.Geometry();
+
+					geometry.vertices.push(new THREE.Vector3( -6 -(i/100), 0.3, 0) );
+					geometry.vertices.push(new THREE.Vector3( -6 -(i/100), 0.3, 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -6-(i/100), -0.3, 0) );
+					geometry.vertices.push(new THREE.Vector3( -6-(i/100), -0.3, 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -6, -0.3+(0.6*i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( -6, -0.3+(0.6*i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -7, -0.3+(0.6*i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( -7, -0.3+(0.6*i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+				}
+
+				for(var i = 1; i <= 100; i++){
+
+					var geometry = new THREE.Geometry();
+
+					geometry.vertices.push(new THREE.Vector3( 6 +(i/100), 0.3, 0) );
+					geometry.vertices.push(new THREE.Vector3( 6 +(i/100), 0.3, 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( 6+(i/100), -0.3, 0) );
+					geometry.vertices.push(new THREE.Vector3( 6+(i/100), -0.3, 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( 6, -0.3+(0.6*i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( 6, -0.3+(0.6*i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( 7, -0.3+(0.6*i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( 7, -0.3+(0.6*i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+				}
+
+				for(var i = 1; i <= 100; i++){
+
+					var geometry = new THREE.Geometry();
+
+					geometry.vertices.push(new THREE.Vector3( 0.3, -6-(i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( 0.3, -6-(i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -0.3, -6-(i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( -0.3, -6-(i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100),-6 , 0) );
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100),-6 , 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100), -7, 0) );
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100), -7, 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+				}
+
+				for(var i = 1; i <= 100; i++){
+
+					var geometry = new THREE.Geometry();
+
+					geometry.vertices.push(new THREE.Vector3( 0.3, 6+(i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( 0.3, 6+(i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -0.3, 6+(i/100), 0) );
+					geometry.vertices.push(new THREE.Vector3( -0.3, 6+(i/100), 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100),6 , 0) );
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100),6 , 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+
+					geometry = new THREE.Geometry();
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100), 7, 0) );
+					geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100), 7, 5) );
+					var line = new THREE.Line( geometry, material);
+					scene.add( line);
+				}
+
+				material = new THREE.LineBasicMaterial( { color: 0x663300 } );
+
+					for(var j = 1; j <= 499; j++){
+						
+						var vertices = [];
+						var divisions = 70;
+						for ( var i = 0; i <= divisions; i ++ ) {
+							var v = ( i / divisions ) * ( Math.PI * 2 );
+							var x = (j/500)*8*Math.sin( v );
+							var y = (j/500)*8*Math.cos( v );
+							vertices.push( x, y, 5);
+						}
+						geometry = new THREE.BufferGeometry();
+						geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+						line = new THREE.Line( geometry, material );
+						scene.add( line );
+					}
+
+					for(var j = 1; j <= 499; j++){
+						
+						var vertices = [];
+						var divisions = 70;
+						for ( var i = 0; i <= divisions; i ++ ) {
+							var v = ( i / divisions ) * ( Math.PI * 2 );
+							var x = (j/500)*8*Math.sin( v );
+							var y = (j/500)*8*Math.cos( v );
+							vertices.push( x, y, 5.2);
+						}
+						geometry = new THREE.BufferGeometry();
+						geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+						line = new THREE.Line( geometry, material );
+						scene.add( line );
+					}
+
+					material = new THREE.LineBasicMaterial( { color: 0x993300 } );
+					for(var j = 1; j <= 99; j++){
+						
+						var vertices = [];
+						var divisions = 70;
+						for ( var i = 0; i <= divisions; i ++ ) {
+							var v = ( i / divisions ) * ( Math.PI * 2 );
+							var x = 8*Math.sin( v );
+							var y = 8*Math.cos( v );
+							vertices.push( x, y, 5+(0.2*j/100));
+						}
+						geometry = new THREE.BufferGeometry();
+						geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+						line = new THREE.Line( geometry, material );
+						scene.add( line );
+					}
+
+
+					material = new THREE.LineBasicMaterial( { color: 0x666600 } );
+					for(var j = 1; j <= 399; j++){
+						
+						var vertices = [];
+						var divisions = 70;
+						for ( var i = 0; i <= divisions; i ++ ) {
+							var v = ( i / divisions ) * ( Math.PI * 2 );
+							var x = (j/400)*5*Math.sin( v );
+							var y = (j/400)*5*Math.cos( v );
+							vertices.push( x, y, 5.5);
+						}
+						geometry = new THREE.BufferGeometry();
+						geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+						line = new THREE.Line( geometry, material );
+						scene.add( line );
+					}
+
+					material = new THREE.LineBasicMaterial( { color: 0x993300 } );
+
+					for(var j = 1; j <= 99; j++){
+						
+						var vertices = [];
+						var divisions = 70;
+						for ( var i = 0; i <= divisions; i ++ ) {
+							var v = ( i / divisions ) * ( Math.PI * 2 );
+							var x = 5*Math.sin( v );
+							var y = 5*Math.cos( v );
+							vertices.push( x, y, 5.2+(0.3*j/100));
+						}
+						geometry = new THREE.BufferGeometry();
+						geometry.addAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+						line = new THREE.Line( geometry, material );
+						scene.add( line );
+					}
+
+					for(var i=1; i<=100; i++){
+
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -6, -0.3+(0.6*i/100), 2 ));
+						geometry.vertices.push(new THREE.Vector3( 6, -0.3+(0.6*i/100), 2 ));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					for(var i=1; i<=100; i++){
+
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -6, -0.3+(0.6*i/100), 1 ));
+						geometry.vertices.push(new THREE.Vector3( 6, -0.3+(0.6*i/100), 1));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					for(var i=1; i<=100; i++){
+
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100),-6 , 1 ));
+						geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100), 6, 1));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					for(var i=1; i<=100; i++){
+
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100),-6 , 2 ));
+						geometry.vertices.push(new THREE.Vector3( -0.3+(0.6*i/100), 6, 2));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					material = new THREE.LineBasicMaterial( { color: 0x663300 } );
+					for(var i=1; i<=100; i++){
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -0.3,-6 ,1+(i/100) ));
+						geometry.vertices.push(new THREE.Vector3( -0.3, 6, 1+(i/100) ));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					for(var i=1; i<=100; i++){
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( 0.3,-6 ,1+(i/100) ));
+						geometry.vertices.push(new THREE.Vector3( 0.3, 6, 1+(i/100) ));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					for(var i=1; i<=100; i++){
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -6,-0.3 ,1+(i/100) ));
+						geometry.vertices.push(new THREE.Vector3( 6, -0.3, 1+(i/100) ));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+
+					for(var i=1; i<=100; i++){
+						var geometry = new THREE.Geometry();
+
+						geometry.vertices.push(new THREE.Vector3( -6,0.3 ,1+(i/100) ));
+						geometry.vertices.push(new THREE.Vector3( 6, 0.3, 1+(i/100) ));
+						var line = new THREE.Line( geometry, material);
+						scene.add( line);
+					}
+			}
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				render();
+			}
+			
+			function render() {
+				renderer.render( scene, camera );
+			}
+		</script>
+	</body>
+</html>
